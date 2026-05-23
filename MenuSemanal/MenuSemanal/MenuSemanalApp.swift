@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct MenuSemanalApp: App {

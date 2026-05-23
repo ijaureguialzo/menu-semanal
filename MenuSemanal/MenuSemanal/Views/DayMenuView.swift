@@ -41,7 +41,7 @@ struct DayMenuView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(dayHeader)
                 .font(.headline)
-                .foregroundStyle(isToday ? .accentColor : .primary)
+                .foregroundStyle(isToday ? Color.accentColor : Color.primary)
 
             HStack(spacing: 8) {
                 mealCell(tipo: "almuerzo", label: String(localized: "meal.lunch"))
@@ -63,7 +63,7 @@ struct DayMenuView: View {
             Text(dayHeader)
                 .font(.caption2)
                 .fontWeight(.semibold)
-                .foregroundStyle(isToday ? .accentColor : .secondary)
+                .foregroundStyle(isToday ? Color.accentColor : Color.secondary)
 
             ForEach(["almuerzo", "cena"], id: \.self) { tipo in
                 if let comida = comidas.first(where: { $0.tipo == tipo }) {

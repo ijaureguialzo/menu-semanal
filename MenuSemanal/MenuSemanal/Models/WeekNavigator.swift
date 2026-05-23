@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Combine
 
 /// Gestiona la navegación entre semanas. La primera semana empieza según la localización del dispositivo.
 class WeekNavigator: ObservableObject {
