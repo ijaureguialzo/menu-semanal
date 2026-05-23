@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="true" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    <entity name="Comida" representedClassName="Comida" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="fecha" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="tipo" optional="YES" attributeType="String"/>
+        <attribute name="nombre" optional="YES" attributeType="String"/>
+        <relationship name="componentes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Componente" inverseName="comida" inverseEntity="Componente"/>
+    </entity>
+    <entity name="Componente" representedClassName="Componente" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nombre" optional="YES" attributeType="String"/>
+        <attribute name="disponible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="comida" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comida" inverseName="componentes" inverseEntity="Comida"/>
     </entity>
     <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="Comida" positionX="-200" positionY="-18" width="128" height="104"/>
+        <element name="Componente" positionX="100" positionY="-18" width="128" height="88"/>
     </elements>
 </model>

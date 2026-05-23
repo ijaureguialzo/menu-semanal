@@ -2,11 +2,8 @@
 //  MenuSemanalApp.swift
 //  MenuSemanal
 //
-//  Created by Ion Jaureguialzo Sarasola on 23/05/2026.
-//
 
 import SwiftUI
-import CoreData
 
 @main
 struct MenuSemanalApp: App {
@@ -14,7 +11,7 @@ struct MenuSemanalApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

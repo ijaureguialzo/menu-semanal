@@ -14,15 +14,50 @@ struct PersistenceController {
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+
+        let calendar = Calendar.current
+        let today = Date()
+        let weekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
+
+        let tiposComida = ["almuerzo", "cena"]
+        let nombres = [
+            ["almuerzo": "Lentejas", "cena": "Tortilla de patatas"],
+            ["almuerzo": "Paella", "cena": "Ensalada"],
+            ["almuerzo": "Macarrones", "cena": "Sopa de verduras"],
+            ["almuerzo": "Pollo al horno", "cena": "Gazpacho"],
+            ["almuerzo": "Merluza", "cena": "Croquetas"],
+            ["almuerzo": "Cocido", "cena": "Pizza casera"],
+            ["almuerzo": "Cordero", "cena": "Revuelto de setas"],
+        ]
+
+        for dayOffset in 0..<7 {
+            guard let fecha = calendar.date(byAdding: .day, value: dayOffset, to: weekStart) else { continue }
+            let nombresDelDia = nombres[dayOffset]
+
+            for tipo in tiposComida {
+                let comida = Comida(context: viewContext)
+                comida.id = UUID()
+                comida.fecha = fecha
+                comida.tipo = tipo
+                comida.nombre = nombresDelDia[tipo] ?? ""
+
+                let comp1 = Componente(context: viewContext)
+                comp1.id = UUID()
+                comp1.nombre = "Ingrediente A"
+                comp1.disponible = true
+                comp1.comida = comida
+
+                let comp2 = Componente(context: viewContext)
+                comp2.id = UUID()
+                comp2.nombre = "Ingrediente B"
+                comp2.disponible = false
+                comp2.comida = comida
+            }
         }
+
         do {
             try viewContext.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
@@ -36,22 +71,12 @@ struct PersistenceController {
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
+        }
         container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
 }
