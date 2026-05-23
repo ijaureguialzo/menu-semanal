@@ -1,12 +1,3 @@
 # menu-semanal
 
-```
- _________________________________________
-< Beware of computerized fortune-tellers! >
- -----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-```
+Aplicación para planificar el menú de la semana.
